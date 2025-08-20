@@ -9,7 +9,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: MONGODB_URI
-        value: mongodb+srv://username:password@cluster.mongodb.net/finance_diary
+        value: mongodb+srv://vighnesh:admin@cluster.mongodb.net/finance_diary
       - key: JWT_SECRET
         generateValue: true
       - key: FRONTEND_URL
