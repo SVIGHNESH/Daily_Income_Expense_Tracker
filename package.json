@@ -1,0 +1,15 @@
+{
+  "name": "daily-expense-tracker",
+  "version": "1.0.0",
+  "description": "Daily Expense Tracker Full Stack Application",
+  "scripts": {
+    "install-backend": "cd finance-diary-backend && npm install",
+    "install-frontend": "cd finance-diary-frontend && npm install",
+    "build": "npm run install-backend",
+    "start": "cd finance-diary-backend && npm start",
+    "dev": "cd finance-diary-backend && npm run dev"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

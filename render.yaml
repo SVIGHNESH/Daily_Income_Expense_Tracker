@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: finance-diary-api
+    env: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        fromDatabase:
+          name: finance-diary-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        value: https://your-frontend-app.vercel.app
+
+databases:
+  - name: finance-diary-db
+    databaseName: finance_diary
+    user: admin
