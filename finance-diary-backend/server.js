@@ -39,6 +39,22 @@ app.get('/health', (req, res) => {
   });
 });
 
+// Simple ping endpoint for keep-alive
+app.get('/ping', (req, res) => {
+  res.status(200).json({ 
+    status: 'pong',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Ping endpoint with API prefix (for consistency with other routes)
+app.get('/api/ping', (req, res) => {
+  res.status(200).json({ 
+    status: 'pong',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Debug endpoint (only in development)
 app.get('/debug/env', (req, res) => {
   if (process.env.NODE_ENV === 'production') {
