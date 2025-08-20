@@ -9,15 +9,8 @@ services:
       - key: NODE_ENV
         value: production
       - key: MONGODB_URI
-        fromDatabase:
-          name: finance-diary-db
-          property: connectionString
+        value: mongodb+srv://username:password@cluster.mongodb.net/finance_diary
       - key: JWT_SECRET
         generateValue: true
       - key: FRONTEND_URL
-        value: https://your-frontend-app.vercel.app
-
-databases:
-  - name: finance-diary-db
-    databaseName: finance_diary
-    user: admin
+        value: https://your-actual-vercel-app-url.vercel.app

@@ -48,10 +48,23 @@ app.use('*', (req, res) => {
 // Database connection
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/finance-diary');
+    const mongoUri = process.env.MONGODB_URI;
+    
+    if (!mongoUri) {
+      throw new Error('MONGODB_URI environment variable is not set');
+    }
+    
+    console.log('Connecting to MongoDB...');
+    console.log('Environment:', process.env.NODE_ENV);
+    console.log('MongoDB URI exists:', !!mongoUri);
+    
+    const conn = await mongoose.connect(mongoUri);
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error('Database connection error:', error);
+    console.error('Environment variables check:');
+    console.error('MONGODB_URI exists:', !!process.env.MONGODB_URI);
+    console.error('NODE_ENV:', process.env.NODE_ENV);
     process.exit(1);
   }
 };
