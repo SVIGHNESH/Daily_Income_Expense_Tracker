@@ -1,15 +1,14 @@
 services:
   - type: web
     name: finance-diary-api
-    env: node
+    env: docker
     plan: free
-    buildCommand: npm run build
-    startCommand: npm start
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: NODE_ENV
         value: production
       - key: MONGODB_URI
-        value: mongodb+srv://vighnesh:admin@cluster.mongodb.net/finance_diary
+        value: mongodb+srv://vighnesh:admin@cluster.mongodb.net/finance_diary?retryWrites=true&w=majority
       - key: JWT_SECRET
         generateValue: true
       - key: FRONTEND_URL

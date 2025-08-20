@@ -51,7 +51,8 @@ const connectDB = async () => {
     const mongoUri = process.env.MONGODB_URI;
     
     if (!mongoUri) {
-      throw new Error('MONGODB_URI environment variable is not set');
+      console.error('MONGODB_URI environment variable is not set');
+      return false;
     }
     
     console.log('Connecting to MongoDB...');
@@ -60,21 +61,38 @@ const connectDB = async () => {
     
     const conn = await mongoose.connect(mongoUri);
     console.log(`MongoDB Connected: ${conn.connection.host}`);
+    return true;
   } catch (error) {
-    console.error('Database connection error:', error);
+    console.error('Database connection error:', error.message);
     console.error('Environment variables check:');
     console.error('MONGODB_URI exists:', !!process.env.MONGODB_URI);
     console.error('NODE_ENV:', process.env.NODE_ENV);
-    process.exit(1);
+    return false;
   }
 };
 
-// Connect to database
-connectDB();
+// Start server
+const startServer = async () => {
+  const PORT = process.env.PORT || 5000;
+  
+  // Start server first
+  const server = app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`🔗 Health check: http://localhost:${PORT}/health`);
+  });
+  
+  // Then try to connect to database
+  const dbConnected = await connectDB();
+  if (!dbConnected) {
+    console.log('⚠️  Server running without database connection');
+  }
+  
+  return server;
+};
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🔗 Health check: http://localhost:${PORT}/health`);
+// Start the application
+startServer().catch(error => {
+  console.error('Failed to start server:', error);
+  process.exit(1);
 });
